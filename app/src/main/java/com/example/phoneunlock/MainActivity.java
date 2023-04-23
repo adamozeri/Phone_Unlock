@@ -64,7 +64,15 @@ public class MainActivity extends AppCompatActivity {
     // checking if the following services are on:
     // Airplane mode, Location (GPS), Silent, ScreenRotationLocked.
     private boolean checkSecurityFilters() throws Settings.SettingNotFoundException {
-        return isAirplaneModeOn() && isLocationOn() && isSilentMode() && isScreenRotationLocked();
+        return isAirplaneModeOn() && volumeLvl() && isLocationOn() && isSilentMode() && isScreenRotationLocked();
+    }
+
+    private boolean volumeLvl(){
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int currentVolumePercentage = 100 * currentVolume/maxVolume;
+        return currentVolumePercentage < 50;
     }
 
     private boolean isAirplaneModeOn(){
