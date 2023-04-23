@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         this.main_LL_images = findViewById(R.id.main_LL_images);
     }
 
+    // checking if the following services are on:
+    // Airplane mode, Location (GPS), Silent, ScreenRotationLocked.
     private boolean checkSecurityFilters() throws Settings.SettingNotFoundException {
         return isAirplaneModeOn() && isLocationOn() && isSilentMode() && isScreenRotationLocked();
     }
