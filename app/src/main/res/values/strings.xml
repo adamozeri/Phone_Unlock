@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PhoneUnlock</string>
+    <string name="password">password</string>
+    <string name="submit">Submit</string>
+</resources>
