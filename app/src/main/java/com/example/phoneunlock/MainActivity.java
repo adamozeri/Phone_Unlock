@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText main_TF_password;
     private LinearLayout main_LL_images;
     private MaterialButton main_BTN_submit;
-    private int countOfServicesOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +43,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clicked() throws Settings.SettingNotFoundException {
-        countOfServicesOn = 0;
         for (int i = 0; i < main_LL_images.getChildCount(); i++) {
             ((ShapeableImageView) main_LL_images.getChildAt(i)).setImageResource(R.drawable.secure);
         }
         SimpleDateFormat s = new SimpleDateFormat("HH:mm");
         String time = s.format(new Date());
         if(checkSecurityFilters() && main_TF_password.getText().toString().equals(time)){
-            for (int i = 0; i < countOfServicesOn; i++) {
+            for (int i = 0; i < main_LL_images.getChildCount(); i++) {
                 ((ShapeableImageView) main_LL_images.getChildAt(i)).setImageResource(R.drawable.unlocked);
             }
         }
@@ -75,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean isAirplaneModeOn(){
         boolean isAirplaneMode = Settings.System.getInt(getContentResolver(),
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-        if(isAirplaneMode)
-            countOfServicesOn++;
         return isAirplaneMode;
     }
 
@@ -84,23 +80,17 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLocationOn(){
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean isLocation = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if(isLocation)
-            countOfServicesOn++;
         return isLocation;
     }
 
     private boolean isSilentMode(){
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         boolean isSilent = audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT;
-        if(isSilent)
-            countOfServicesOn++;
         return isSilent;
     }
 
     private boolean isScreenRotationLocked() throws Settings.SettingNotFoundException {
         boolean isRotation = Settings.System.getInt(getContentResolver(), Settings.System.ACCELEROMETER_ROTATION) == 0;
-        if(isRotation)
-            countOfServicesOn++;
         return isRotation;
     }
 }
