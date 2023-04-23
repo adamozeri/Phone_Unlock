@@ -62,35 +62,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean checkSecurityFilters() throws Settings.SettingNotFoundException {
-        if(!isAirplaneModeOn() || !isLocationOn() || !isSilentMode() || !isScreenRotationLocked()){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return isAirplaneModeOn() && isLocationOn() && isSilentMode() && isScreenRotationLocked();
     }
 
     private boolean isAirplaneModeOn(){
-        boolean isAirplaneMode = Settings.System.getInt(getContentResolver(),
+        return Settings.System.getInt(getContentResolver(),
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-        return isAirplaneMode;
     }
 
 
     private boolean isLocationOn(){
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        boolean isLocation = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        return isLocation;
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     private boolean isSilentMode(){
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        boolean isSilent = audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT;
-        return isSilent;
+        return audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT;
     }
 
     private boolean isScreenRotationLocked() throws Settings.SettingNotFoundException {
-        boolean isRotation = Settings.System.getInt(getContentResolver(), Settings.System.ACCELEROMETER_ROTATION) == 0;
-        return isRotation;
+        return Settings.System.getInt(getContentResolver(), Settings.System.ACCELEROMETER_ROTATION) == 0;
     }
 }
